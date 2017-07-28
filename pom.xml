@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jboss</groupId>
+		<artifactId>jboss-parent</artifactId>
+		<version>23</version>
+		<relativePath />
+	</parent>
+
+	<groupId>global.concentric</groupId>
+	<artifactId>JavaTest</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>JavaTest Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<qs.name.prefix>JBoss EAP Quickstart:</qs.name.prefix>
+		<root.dir>${project.basedir}</root.dir>
+		<jboss.home.name>EAP7_HOME</jboss.home.name>
+		<product.name>JBoss EAP</product.name>
+		<!-- A base list of dependency and plug-in version used in the various 
+			quick starts. -->
+		<version.wildfly.maven.plugin>1.2.0.Alpha4</version.wildfly.maven.plugin>
+
+		<!-- other plug-in versions -->
+		<version.com.mycyla.license>3.0</version.com.mycyla.license>
+
+		<!-- Explicitly declaring the source encoding eliminates the following 
+			message: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+			resources, i.e. build is platform dependent! -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<version.spring.framework>4.3.7.RELEASE</version.spring.framework>
+		<!-- EAP component version management BOM -->
+		<version.server.bom>7.1.0.Beta1</version.server.bom>
+
+		<version.jboss.spec.javaee.7.0>1.1.0.Final-redhat-1</version.jboss.spec.javaee.7.0>
+
+		<version.jaxws-tools-maven-plugin>1.2.0.Final</version.jaxws-tools-maven-plugin>
+
+		<!-- Other dependency versions -->
+		<version.ro.isdc.wro4j>1.7.9</version.ro.isdc.wro4j>
+		<httpclient.version>4.5.2.redhat-1</httpclient.version>
+		<version.org.apache.commons.commons-lang3>3.5</version.org.apache.commons.commons-lang3>
+		<version.h2db>1.4.193.redhat-2</version.h2db>
+		<version.org.wildfly.checkstyle-config>1.0.5.Final</version.org.wildfly.checkstyle-config>
+	</properties>
+
+	<dependencies>
+		<!-- First declare the APIs we depend on and need for compilation. All 
+			of them are provided by JBoss EAP -->
+
+		<!-- Import the CDI API, we use provided scope as the API is included in 
+			JBoss EAP -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Needed for running tests (you may also use TestNG) -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Now we declare any tools needed -->
+
+		<!-- Annotation processor to generate the JPA metamodel classes for typesafe 
+			criteria queries -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>5.2.10.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Bean Validation Implementation Provides portable constraints such 
+			as @Email Hibernate Validator is shipped in JBoss EAP -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.1.Final</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Annotation processor that raising compilation errors whenever constraint 
+			annotations are incorrectly used. -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>5.4.1.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JPA API, we use provided scope as the API is included in 
+			JBoss EAP -->
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the Common Annotations API (JSR-250), we use provided scope 
+			as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the EJB API, we use provided scope as the API is included in 
+			JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JSF API, we use provided scope as the API is included in 
+			JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.2_spec</artifactId>
+			<version>2.2.13</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JAX-RS API, we use provided scope as the API is included 
+			in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- <repositories> <repository> <releases> <enabled>true</enabled> </releases> 
+		<snapshots> <enabled>false</enabled> </snapshots> <id>jboss-enterprise-maven-repository</id> 
+		<url>https://maven.repository.redhat.com/ga/</url> </repository> <repository> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> <id>jboss-enterprise-maven-repository-ea</id> <url>https://maven.repository.redhat.com/earlyaccess/all/</url> 
+		</repository> </repositories> -->
+
+	<!-- <pluginRepositories> <pluginRepository> <releases> <enabled>true</enabled> 
+		</releases> <snapshots> <enabled>false</enabled> </snapshots> <id>jboss-enterprise-maven-repository</id> 
+		<url>https://maven.repository.redhat.com/ga/</url> </pluginRepository> <pluginRepository> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+		</snapshots> <id>jboss-enterprise-maven-repository-ea</id> <url>https://maven.repository.redhat.com/earlyaccess/all/</url> 
+		</pluginRepository> <pluginRepository> <id>jboss-public-repository-group</id> 
+		<name>JBoss Public Maven Repository Group</name> <url>https://repository.jboss.org/nexus/content/groups/public/</url> 
+		<layout>default</layout> <releases> <enabled>true</enabled> <updatePolicy>never</updatePolicy> 
+		</releases> <snapshots> <enabled>true</enabled> <updatePolicy>never</updatePolicy> 
+		</snapshots> </pluginRepository> </pluginRepositories> -->
+
+	<build>
+		<finalName>ConcentricJavaTest</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>${version.com.mycyla.license}</version>
+				<configuration>
+					<header>${basedir}/dist/license.txt</header>
+					<aggregate>true</aggregate>
+					<strictCheck>true</strictCheck>
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>.clover/**</exclude>
+						<exclude>**/*.sql</exclude>
+						<exclude>**/LICENSE*</exclude>
+						<exclude>**/license*</exclude>
+						<!-- Exclude specific Quickstarts -->
+						<exclude>petclinic-spring/**</exclude>
+						<!-- Javascrip Libraries -->
+						<exclude>**/jquery*</exclude>
+						<exclude>**/angular*</exclude>
+						<exclude>**/qunit*</exclude>
+						<exclude>**/backbone*</exclude>
+						<exclude>**/lodash*</exclude>
+						<exclude>**/modernizr*</exclude>
+						<exclude>**/yepnope*</exclude>
+						<exclude>**/mobile-nav*</exclude>
+						<!--Other libraries -->
+						<exclude>**/*glyphicons*/**</exclude>
+						<exclude>**/*cordova*/**</exclude>
+					</excludes>
+					<encoding>UTF-8</encoding>
+					<headerDefinitions>
+						<headerDefinition>dist/headerdefinition.xml</headerDefinition>
+					</headerDefinitions>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>${version.wildfly.maven.plugin}</version>
+					<configuration>
+						<hostname>127.0.0.1</hostname>
+						<port>9990</port>
+						<!-- Debug Java Option--> 
+						<javaOpts>
+							<!-- javaOpt>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</javaOpt -->
+						</javaOpts>
+						<add-user>
+							<users>
+								<user>
+									<username>admin</username>
+									<password>password</password>
+								</user>
+								<user>
+									<username>admin-user</username>
+									<password>password</password>
+									<groups>
+										<group>admin</group>
+										<group>user</group>
+									</groups>
+									<application-user>true</application-user>
+								</user>
+								<user>
+									<username>default-user</username>
+									<password>password</password>
+									<groups>
+										<group>user</group>
+									</groups>
+									<application-user>true</application-user>
+								</user>
+							</users>
+						</add-user>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ejb-plugin</artifactId>
+					<version>${version.ejb.plugin}</version>
+					<configuration>
+						<!-- Tell Maven we are using EJB -->
+						<ejbVersion>3.2</ejbVersion>
+					</configuration>
+				</plugin>
+				<!-- Checkstyle -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${version.checkstyle.plugin}</version>
+					<configuration>
+						<configLocation>wildfly-checkstyle/checkstyle.xml</configLocation>
+						<includeTestSourceDirectory>true</includeTestSourceDirectory>
+						<excludes>**/*$logger.java,**/*$bundle.java</excludes>
+						<resourceIncludes>**/*.properties,**/*.xml</resourceIncludes>
+						<includeTestResources>true</includeTestResources>
+						<includeResources>true</includeResources>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.wildfly.checkstyle</groupId>
+							<artifactId>wildfly-checkstyle-config</artifactId>
+							<version>${version.org.wildfly.checkstyle-config}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<id>check-style</id>
+							<phase>compile</phase>
+							<goals>
+								<goal>checkstyle</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.redhat.rcm.maven.plugin
+										</groupId>
+										<artifactId>
+											buildmetadata-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.7.0,)
+										</versionRange>
+										<goals>
+											<goal>
+												provide-buildmetadata
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.commonjava.maven.plugins
+										</groupId>
+										<artifactId>
+											project-sources-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.3,)
+										</versionRange>
+										<goals>
+											<goal>archive</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.jboss.ws.plugins
+										</groupId>
+										<artifactId>
+											jaxws-tools-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.2.0.Final,)
+										</versionRange>
+										<goals>
+											<goal>wsconsume</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
+</project>

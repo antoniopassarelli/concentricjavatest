@@ -41,7 +41,7 @@ By default the application comes with three users:
 *user*  
 *user2*  
 
-and two credit cards for the regular users.
+all with the same password (*password*), and two credit cards for the regular users.
 
 
 ## Stop the server
